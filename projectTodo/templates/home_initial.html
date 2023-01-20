@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    body
+{
+    counter-reset: Serial;
+}
+
+tr td:first-child:before
+{
+  counter-increment: Serial;
+  content: counter(Serial);
+}
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="banner">
+                <div class="banner-text">
+                    <h1>TODO</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+        <form method="POST" class="p-3 shadow">
+           {% csrf_token %}
+            <div class="form-group">
+                <label for="task_name" class="form-label">Task Name:</label>
+                <input type="text" class="form-control" id="task_name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="task_name" class="form-label">Priority:</label>
+                <input type="number" class="form-control" name="priority">
+            </div>
+            <div class="form-group">
+                <label for="task_date" class="form-label">Date:</label>
+                <input type="date" id="task_date" class="form-control" name="task_date" style="margin-bottom:20px;">
+            </div>
+            <input type="submit" class="btn btn-primary">
+        </form>
+        </div>
+        <div class="col-md-6">
+            <table class="table shadow">
+                <thead>
+                <tr>
+                    <th scope="col">Sl. No</th>
+                    <th scope="col">Task Name</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Date</th>
+                    <th scope="col" colspan="2" style="text-align:center;">Action</th>
+                </tr>
+                </thead>
+                {% for i in model_db %}
+                <tbody>
+                <tr>
+                    <td scope="row"></td>
+                    <td><a href="{% url 'appTodo:cbvdetail' i.id %}">{{i.name}}</a></td>
+                    <td>{{i.priority}}</td>
+                    <td>{{i.date}}</td>
+                    <td><a href="{% url 'appTodo:delete' i.id %}" class="btn btn-danger">Delete</a></td>
+                    <td><a href="{% url 'appTodo:update' i.id %}" class="btn btn-success">Update</a></td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

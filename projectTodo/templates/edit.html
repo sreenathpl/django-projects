@@ -1,0 +1,11 @@
+<html>
+<body>
+<form method="POST" >
+  {% csrf_token %}
+  {{form.as_p}}
+  <p>Date format (mm/dd/yyyy)</p>
+  <input type="submit">
+</form>
+</body>
+</html>
+

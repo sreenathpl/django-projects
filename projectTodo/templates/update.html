@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<center>
+<form method="post">
+    {% csrf_token %}
+  <div class="form-group">
+      <table>
+          {{form.as_table}}
+      </table>
+      <p>Date format (yyyy/mm/dd)</p>
+      <input type="submit">
+  </div>
+</form>
+</center>
+{% endblock %}
