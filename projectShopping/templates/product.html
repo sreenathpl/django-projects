@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+        {{product.description | truncatewords:150}}
+{% endblock %}
+
+{% block title %}
+        {{product.name}} - Shoppy Hub
+{% endblock %}
+
+{% block content %}
+<style>
+    .card {
+  flex-direction: row;
+}
+.card img {
+  width: 30%;
+  height: 300px
+}
+</style>
+<div>
+    <div>
+        <p>
+            <a href="{% url 'appShopping:allCategory' %}">Home</a> |
+            <a href="{{product.category.get_url}}">{{product.category}}</a> |
+            <a> {{product.name}}</a>
+        </p>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-8 mb-4">
+    <div class="card text-bg-dark" style="width: 95rem;">
+      <img src="{{product.image.url}}" class="card-img-top" alt="{{product.name}}">
+      <div class="card-body">
+        <h5 class="card-title p-title">{{product.name}}</h5>
+        <p class="card-text">{{product.description}}</p>
+        <p class="card-text">Price: ₹{{product.price}}</p>
+        <a href="{% url 'appCart:add_cart' product.id %}" class="btn btn-primary">Add to cart</a>
+      </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
