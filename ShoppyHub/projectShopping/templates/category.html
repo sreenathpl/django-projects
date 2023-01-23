@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{category.description | truncatewords:150}}
+    {% else %}
+        Welcome to Shoppy Hub. You car buy products here.....
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+        {{category.name}} - Shoppy Hub
+    {% else %}
+        See our exciting offers.
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<style>
+    .b_margin{
+    margin-bottom: 10px;
+}
+</style>
+    <div>
+        {% if category %}
+            <img style="width: 100%; height: 300px; margin: auto" src="{{category.image.url}}" alt="{{category.name}}">
+    </div><br>
+    <div>
+        <h1>{{category.name}}</h1>
+        <p>{{category.description}}</p>
+    </div>
+        {% else %}
+    <div>
+        <img style="width: 100%; height: 300px; margin: auto" src="{% static 'img/banner.jpg' %}" alt="our products" >
+    </div>
+    <div>
+        <h1> Our Produts Collections</h1>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+    </div>
+        {% endif %}
+    <div>
+        <div class="row">
+            {% for prdt in product.object_list %}
+            <div class="col-md-3 mb-4">
+                <div class="card card-body h-100" style="width: 18rem;">
+                  <img src="{{prdt.image.url}}" class="card-img-top" alt="{{prdt.name}}" style="width: 250px; height: 160px;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{prdt.name}}</h5>
+                    <p class="card-text">₹{{prdt.price}}</p>
+                      {% if prdt.stock < 1 %}
+                        <a href="/" class="btn btn-danger">Out of stock</a>
+                      {% else %}
+                        <a href="{{prdt.get_url}}" class="btn btn-primary">Go</a>
+                      {% endif %}
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mx-auto">
+            {% if product.paginator.num_pages > 1 %}
+                <hr>
+                <div class="text-center">
+                    {% for pg in product.paginator.page_range %}
+                    <a href="?page={{pg}}" class="btn btm-light btn-sm {% if product.number == pg %} active {% endif %}" style="color: black;">{{pg}}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <br>
+    </div>
+
+<!--    <div>-->
+<!--        <table class="table table-dark table-striped">-->
+<!--          <thead>-->
+<!--            <tr>-->
+<!--              <th scope="col">Product Name</th>-->
+<!--              <th scope="col">Product Category</th>-->
+<!--              <th scope="col">Price</th>-->
+<!--              <th scope="col">Stock</th>-->
+<!--            </tr>-->
+<!--          </thead>-->
+<!--            {% for prdt in product %}-->
+<!--             <tbody>-->
+<!--                <tr>-->
+<!--                  <th scope="row">-->
+<!--                      <a href="{{prdt.get_url}}">{{prdt.name}}</a>-->
+<!--                  </th>-->
+<!--                  <td>{{prdt.category}}</td>-->
+<!--                  <td>{{prdt.price}}</td>-->
+<!--                  <td>-->
+<!--                      {% if prdt.stock < 1 %}-->
+<!--                      <p style="color:red"><b>Out of stock</b></p>-->
+<!--                      {% else %}-->
+<!--                      <p style="color:green">Available</p>-->
+<!--                      {% endif %}-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--             </tbody>-->
+<!--            {% endfor %}-->
+<!--        </table>-->
+<!--    </div>-->
+{% endblock %}
